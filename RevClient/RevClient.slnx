@@ -1,0 +1,7 @@
+<Solution>
+  <Folder Name="/docs/">
+    <File Path="Preparation.md" />
+    <File Path="PreparationChatGpt.md" />
+  </Folder>
+  <Project Path="RevClient/RevClient.csproj" />
+</Solution>
