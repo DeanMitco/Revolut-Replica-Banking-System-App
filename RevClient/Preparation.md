@@ -30,6 +30,10 @@ Tech Stack used in the project:
     Database: SQL Server
     API Gateway: YARP
     Architecture: Microservices
+    Message Broker: RabbitMQ
+    Saga Pattern: MassTransit
+    Orchestration local: .NET Aspire
+    Orchestration production-grade: Kubernetes
 
 By avoiding monolithic architecture we ensure, that our application is scalable, has a rapid deployment & iteration anf fault isolation.
 Some drawbacks are the complexity, simplicity to set up and monitoring.
@@ -76,6 +80,112 @@ CI/CD Implementation and Homelab-DevOps dependency and relationship
 Core Focus: GitOps, Kubernetes, and automated security.
 • Implementation Steps:
 1. CI Stage: Set up GitHub Actions to run unit tests, build Docker images, and immediately scan them for vulnerabilities using Trivy.
-2. Secret Management: Integrate HashiCorp or BCrypt Vault so secrets are injected dynamically at runtime rather than stored in Git.
+2. Secret Management: Integrate HashiCorp or Azure Key Vault so secrets are injected dynamically at runtime rather than stored in Git.
 3. CD (GitOps) Stage: Set up ArgoCD inside the Kubernetes cluster. Configure it to monitor a separate gitops-manifests repository. When GitHub Actions updates the image tag in the manifests repo, ArgoCD automatically syncs and deploys it.
 4. Policy & Monitoring: Implement Kyverno to block non-compliant images and use Prometheus/Grafana to track deployment metrics (deployment frequency, lead time for changes).
+
+Architecture Diagram (Design):
+C4 Model
+
+Level 1 - System Context Diagram
+
+```mermaid
+C4Context
+    title System Context Diagram - RevolutReplica
+
+    Person(customer, "Banking Customer", "Manages wallets, exchanges currencies, and transfers money via mobile")
+    
+    System(bankingSystem, "RevolutReplica System", "Hybrid cloud-native banking platform with ACID ledger, FX rates, and EDA fraud checks")
+    
+    System_Ext(fxFeed, "FX Rate Simulator", "Generates simulated hourly currency exchange rates")
+
+    Rel(customer, bankingSystem, "Views balances, transfers funds, checks KYC", "HTTPS / SignalR")
+    Rel(fxFeed, bankingSystem, "Feeds hourly exchange rates", "Internal Timer / Event")
+```
+
+Level 2 - Container Diagram
+
+```mermaid
+C4Container
+    title Container Diagram - RevolutReplica Microservices
+
+    Person(customer, "Banking Customer", "Mobile User")
+
+    Container(mauiApp, ".NET MAUI Mobile App", "C#, XAML, MVVM", "Native mobile UI for transfers, FX, and real-time alerts")
+
+    System_Boundary(k8s, "Kubernetes Cluster (AKS / Homelab)") {
+        Container(yarp, "API Gateway", "C#, YARP", "Single entry point, Zero-Trust JWT validation, rate limiting, routing")
+
+        Container(identitySvc, "Identity & KYC Service", "ASP.NET Core", "Handles registration, ASP.NET Identity, JWT tokens, and KYC status")
+        Container(ledgerSvc, "Account & Ledger Service", "ASP.NET Core, MassTransit", "IBAN generator, multi-currency wallets, double-entry ACID ledger")
+        Container(fxSvc, "FX Service", "ASP.NET Core Worker", "Updates exchange rates every 1h and handles currency conversions")
+        Container(fraudAuditSvc, "Fraud & Audit Service", "ASP.NET Core, MassTransit", "Consumes events to check fraud rules and write immutable audit logs")
+        Container(notifSvc, "Notification Service", "ASP.NET Core, SignalR", "Pushes real-time transfer confirmations and fraud alerts")
+
+        ContainerQueue(rabbitmq, "Message Broker", "RabbitMQ", "Event bus for EDA (TransferCompleted, FraudAlerted, RateUpdated)")
+
+        ContainerDb(identityDb, "Identity DB", "SQL Server", "Users, roles, password hashes, KYC records")
+        ContainerDb(ledgerDb, "Ledger DB", "SQL Server", "Accounts, IBANs, double-entry ledger rows, Outbox messages")
+        ContainerDb(auditDb, "Audit & Fraud DB", "SQL Server", "Append-only audit trail and flagged transactions")
+    }
+
+    Rel(customer, mauiApp, "Uses")
+    Rel(mauiApp, yarp, "API Calls (JWT)", "HTTPS / JSON")
+    Rel(notifSvc, mauiApp, "Real-time Push Alerts", "WebSockets / SignalR")
+
+    Rel(yarp, identitySvc, "Routes /auth & /kyc", "HTTP")
+    Rel(yarp, ledgerSvc, "Routes /accounts & /transfers", "HTTP")
+    Rel(yarp, fxSvc, "Routes /fx", "HTTP")
+
+    Rel(identitySvc, identityDb, "Reads/Writes", "EF Core")
+    Rel(ledgerSvc, ledgerDb, "ACID Transactions + Outbox", "EF Core")
+    Rel(fraudAuditSvc, auditDb, "Appends Logs", "EF Core")
+
+    Rel(ledgerSvc, rabbitmq, "Publishes TransferCompleted", "AMQP")
+    Rel(fxSvc, rabbitmq, "Publishes ExchangeRateUpdated", "AMQP")
+    Rel(rabbitmq, fraudAuditSvc, "Delivers Events", "AMQP")
+    Rel(rabbitmq, notifSvc, "Delivers Events", "AMQP")
+    Rel(fraudAuditSvc, rabbitmq, "Publishes FraudFlagged", "AMQP")
+```
+
+Level 3: Component Diagram
+
+```mermaid
+C4Component
+    title Component Diagram - Account & Ledger Service
+
+    Container(yarp, "YARP API Gateway", "Routes authenticated requests")
+    ContainerDb(ledgerDb, "Ledger DB", "SQL Server")
+    ContainerQueue(rabbitmq, "RabbitMQ", "Event Broker")
+
+    Container_Boundary(ledgerService, "Account & Ledger Service (ASP.NET Core)") {
+        Component(transferCtrl, "Transfers Controller", "Minimal API / Controller", "Validates Idempotency-Key header & JWT user claims")
+        Component(ibanGen, "IBAN Generator", "C# Domain Service", "Generates valid unique IBANs for new multi-currency wallets")
+        Component(ledgerEngine, "Double-Entry Ledger Engine", "C# Domain Logic", "Creates balanced Debit + Credit entries and verifies sufficient funds")
+        Component(outboxRepo, "EF Core + MassTransit Outbox", "Persistence Layer", "Commits ledger entries and integration events in a single SQL ACID transaction")
+    }
+
+    Rel(yarp, transferCtrl, "POST /api/transfers", "HTTP")
+    Rel(transferCtrl, ibanGen, "Requests new IBAN on account creation")
+    Rel(transferCtrl, ledgerEngine, "Executes transfer command")
+    Rel(ledgerEngine, outboxRepo, "Persists Debit, Credit & Outbox Event")
+    Rel(outboxRepo, ledgerDb, "BEGIN TRAN ... COMMIT", "SQL / EF Core")
+    Rel(outboxRepo, rabbitmq, "Background relay publishes event", "AMQP")
+```
+
+
+Resources:
+Architecture Design:
+https://c4model.com/
+https://www.visual-paradigm.com/guide/c4-model-case-study-modernizing-internet-banking/
+https://c4model.com/abstractions/microservices
+https://medium.com/@gauravtiwari9098/c4-modeling-7dd8ae379f73
+
+Microservices Architecture Design:
+https://learn.microsoft.com/en-us/dotnet/architecture/microservices/multi-container-microservice-net-applications/microservice-application-design
+https://learn.microsoft.com/de-de/dotnet/architecture/cloud-native/introduce-eshoponcontainers-reference-app
+https://github.com/dotnet-architecture/eshoponcontainers/wiki/Architecture
+https://aspire.dev/architecture/overview/
+
+
+
