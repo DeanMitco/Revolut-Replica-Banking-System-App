@@ -1,0 +1,4 @@
+<Project>
+  <!-- Keep client settings independent of the backend defaults in ../Directory.Build.props.
+       MSBuild imports the nearest Directory.Build.props; the MAUI project keeps its own settings. -->
+</Project>
