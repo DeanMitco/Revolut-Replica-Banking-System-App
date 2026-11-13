@@ -1,0 +1,212 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Seite-1" id="iQdIsa3MvU3Co_QehW3g">
+    <mxGraphModel dx="1712" dy="956" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <UserObject label="" mermaidData="{&#xa;  &quot;data&quot;: &quot;C4Container\n    title Container Diagram - RevolutReplica Microservices\n\n    Person(customer, \&quot;Banking Customer\&quot;, \&quot;Mobile User\&quot;)\n\n    Container(mauiApp, \&quot;.NET MAUI Mobile App\&quot;, \&quot;C#, XAML, MVVM\&quot;, \&quot;Native mobile UI for transfers, FX, and real-time alerts\&quot;)\n\n    System_Boundary(k8s, \&quot;Kubernetes Cluster (AKS / Homelab)\&quot;) {\n        Container(yarp, \&quot;API Gateway\&quot;, \&quot;C#, YARP\&quot;, \&quot;Single entry point, Zero-Trust JWT validation, rate limiting, routing\&quot;)\n\n        Container(identitySvc, \&quot;Identity &amp; KYC Service\&quot;, \&quot;ASP.NET Core\&quot;, \&quot;Handles registration, ASP.NET Identity, JWT tokens, and KYC status\&quot;)\n        Container(ledgerSvc, \&quot;Account &amp; Ledger Service\&quot;, \&quot;ASP.NET Core, MassTransit\&quot;, \&quot;IBAN generator, multi-currency wallets, double-entry ACID ledger\&quot;)\n        Container(fxSvc, \&quot;FX Service\&quot;, \&quot;ASP.NET Core Worker\&quot;, \&quot;Updates exchange rates every 1h and handles currency conversions\&quot;)\n        Container(fraudAuditSvc, \&quot;Fraud &amp; Audit Service\&quot;, \&quot;ASP.NET Core, MassTransit\&quot;, \&quot;Consumes events to check fraud rules and write immutable audit logs\&quot;)\n        Container(notifSvc, \&quot;Notification Service\&quot;, \&quot;ASP.NET Core, SignalR\&quot;, \&quot;Pushes real-time transfer confirmations and fraud alerts\&quot;)\n\n        ContainerQueue(rabbitmq, \&quot;Message Broker\&quot;, \&quot;RabbitMQ\&quot;, \&quot;Event bus for EDA (TransferCompleted, FraudAlerted, RateUpdated)\&quot;)\n\n        ContainerDb(identityDb, \&quot;Identity DB\&quot;, \&quot;SQL Server\&quot;, \&quot;Users, roles, password hashes, KYC records\&quot;)\n        ContainerDb(ledgerDb, \&quot;Ledger DB\&quot;, \&quot;SQL Server\&quot;, \&quot;Accounts, IBANs, double-entry ledger rows, Outbox messages\&quot;)\n        ContainerDb(auditDb, \&quot;Audit &amp; Fraud DB\&quot;, \&quot;SQL Server\&quot;, \&quot;Append-only audit trail and flagged transactions\&quot;)\n    }\n\n    Rel(customer, mauiApp, \&quot;Uses\&quot;)\n    Rel(mauiApp, yarp, \&quot;API Calls (JWT)\&quot;, \&quot;HTTPS / JSON\&quot;)\n    Rel(notifSvc, mauiApp, \&quot;Real-time Push Alerts\&quot;, \&quot;WebSockets / SignalR\&quot;)\n\n    Rel(yarp, identitySvc, \&quot;Routes /auth &amp; /kyc\&quot;, \&quot;HTTP\&quot;)\n    Rel(yarp, ledgerSvc, \&quot;Routes /accounts &amp; /transfers\&quot;, \&quot;HTTP\&quot;)\n    Rel(yarp, fxSvc, \&quot;Routes /fx\&quot;, \&quot;HTTP\&quot;)\n\n    Rel(identitySvc, identityDb, \&quot;Reads/Writes\&quot;, \&quot;EF Core\&quot;)\n    Rel(ledgerSvc, ledgerDb, \&quot;ACID Transactions + Outbox\&quot;, \&quot;EF Core\&quot;)\n    Rel(fraudAuditSvc, auditDb, \&quot;Appends Logs\&quot;, \&quot;EF Core\&quot;)\n\n    Rel(ledgerSvc, rabbitmq, \&quot;Publishes TransferCompleted\&quot;, \&quot;AMQP\&quot;)\n    Rel(fxSvc, rabbitmq, \&quot;Publishes ExchangeRateUpdated\&quot;, \&quot;AMQP\&quot;)\n    Rel(rabbitmq, fraudAuditSvc, \&quot;Delivers Events\&quot;, \&quot;AMQP\&quot;)\n    Rel(rabbitmq, notifSvc, \&quot;Delivers Events\&quot;, \&quot;AMQP\&quot;)\n    Rel(fraudAuditSvc, rabbitmq, \&quot;Publishes FraudFlagged\&quot;, \&quot;AMQP\&quot;)&quot;,&#xa;  &quot;config&quot;: null,&#xa;  &quot;version&quot;: &quot;12&quot;&#xa;}" id="3wR_4-WCoav14nw5mJ4--1">
+          <mxCell connectable="0" parent="1" style="group;transparentBounds=1;editIcon=1;lockedGroup=0;groupPadding=10;" vertex="1">
+            <mxGeometry as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="3wR_4-WCoav14nw5mJ4--2" parent="3wR_4-WCoav14nw5mJ4--1" style="text;html=1;strokeColor=none;fillColor=none;fontSize=16;fontColor=light-dark(#333333,#cccccc);align=left;verticalAlign=top;spacingLeft=527;" value="Container Diagram - RevolutReplica Microservices" vertex="1">
+          <mxGeometry height="24" width="1554" x="30" y="30" as="geometry" />
+        </mxCell>
+        <object placeholders="1" c4Name="Banking Customer" c4Type="Person" c4Description="Mobile User" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;%c4Description%&lt;/font&gt;&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-1">
+          <mxCell parent="1" style="html=1;fontSize=11;dashed=0;whiteSpace=wrap;fillColor=#083F75;strokeColor=#06315C;fontColor=#ffffff;shape=mxgraph.c4.person2;align=center;metaEdit=1;points=[[0.5,0,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0]];resizable=0;" vertex="1">
+            <mxGeometry height="180" width="200" x="140" y="112" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Name=".NET MAUI Mobile App" c4Type="Container: C#, XAML, MVVM" c4Description="Native Mobile UI for transfers, FX, and real-time alerts" label="&lt;font style=&quot;font-size: 16px&quot;&gt;&lt;b&gt;%c4Name%&lt;/b&gt;&lt;/font&gt;&lt;div&gt;[%c4Type%]&lt;/div&gt;&lt;br&gt;&lt;div&gt;&lt;font style=&quot;font-size: 11px&quot;&gt;&lt;font color=&quot;#cccccc&quot;&gt;%c4Description%&lt;/font&gt;&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-2">
+          <mxCell parent="1" style="rounded=1;whiteSpace=wrap;html=1;labelBackgroundColor=none;fillColor=#1061B0;fontColor=#ffffff;align=center;arcSize=10;strokeColor=#0D5091;metaEdit=1;resizable=0;roundedPerimeter=1;points=[[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0.25,0],[1,0.5,0],[1,0.75,0],[0.75,1,0],[0.5,1,0],[0.25,1,0],[0,0.75,0],[0,0.5,0],[0,0.25,0]];" vertex="1">
+            <mxGeometry height="120" width="240" x="470" y="152" as="geometry" />
+          </mxCell>
+        </object>
+        <object placeholders="1" c4Type="Relationship" c4Description="uses&#xa;" label="&lt;div style=&quot;text-align: left&quot;&gt;&lt;div style=&quot;text-align: center&quot;&gt;&lt;b&gt;%c4Description%&lt;/b&gt;&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-3">
+          <mxCell edge="1" parent="1" source="SRjLZItRbGDetEtLlN5D-1" style="endArrow=blockThin;html=1;fontSize=10;fontColor=#404040;strokeWidth=1;endFill=1;strokeColor=#828282;elbow=vertical;metaEdit=1;endSize=14;startSize=14;jumpStyle=arc;jumpSize=16;rounded=0;edgeStyle=orthogonalEdgeStyle;defaultLabelBackgroundColor=page;labelPadding=0 4;exitX=1;exitY=0.75;exitDx=0;exitDy=0;exitPerimeter=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" target="SRjLZItRbGDetEtLlN5D-2">
+            <mxGeometry relative="1" width="240" x="-0.1111" as="geometry">
+              <mxPoint as="offset" />
+              <mxPoint x="360" y="142" as="sourcePoint" />
+              <mxPoint x="600" y="142" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </object>
+        <UserObject label="&lt;div style=&quot;font-size:16px;font-weight:bold;&quot;&gt;Kubernetes Cluster (AKS / Homelab)&lt;/div&gt;&lt;div style=&quot;font-size:14px;font-weight:normal;margin-top:4px;&quot;&gt;[SYSTEM]&lt;/div&gt;" mermaidId="n:k8s" mermaidBaseStyle="rounded=1;absoluteArcSize=1;arcSize=5;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#444444;strokeWidth=1;dashed=1;dashPattern=5 5;verticalAlign=top;align=center;spacingTop=2;fontSize=16;fontStyle=1;fontColor=#444444;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:16px;font-weight:bold;&quot;&gt;Kubernetes Cluster (AKS / Homelab)&lt;/div&gt;&lt;div style=&quot;font-size:14px;font-weight:normal;margin-top:4px;&quot;&gt;[SYSTEM]&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-4">
+          <mxCell parent="1" style="rounded=1;absoluteArcSize=1;arcSize=5;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#444444;strokeWidth=1;dashed=1;dashPattern=5 5;verticalAlign=top;align=center;spacingTop=2;fontSize=16;fontStyle=1;fontColor=#444444;fontFamily=Open Sans,sans-serif;fixDash=1;" vertex="1">
+            <mxGeometry height="715" width="1294" x="130" y="360" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;API Gateway&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: C#, YARP]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Single entry point, Zero-Trust JWT&lt;br&gt;validation, rate limiting, routing&lt;/div&gt;" mermaidId="n:yarp" mermaidBaseStyle="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;API Gateway&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: C#, YARP]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Single entry point, Zero-Trust JWT&lt;br&gt;validation, rate limiting, routing&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-5">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-4" style="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" vertex="1">
+            <mxGeometry height="99" width="216" x="50" y="88" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Identity &amp;amp; KYC Service&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: ASP.NET Core]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Handles registration, ASP.NET&lt;br&gt;Identity, JWT tokens, and KYC&lt;br&gt;status&lt;/div&gt;" mermaidId="n:identitySvc" mermaidBaseStyle="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Identity &amp;amp; KYC Service&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: ASP.NET Core]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Handles registration, ASP.NET&lt;br&gt;Identity, JWT tokens, and KYC&lt;br&gt;status&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-6">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-4" style="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" vertex="1">
+            <mxGeometry height="111" width="216" x="366" y="88" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Account &amp;amp; Ledger Service&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: ASP.NET Core,&lt;br&gt;MassTransit]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;IBAN generator, multi-currency&lt;br&gt;wallets, double-entry ACID ledger&lt;/div&gt;" mermaidId="n:ledgerSvc" mermaidBaseStyle="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Account &amp;amp; Ledger Service&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: ASP.NET Core,&lt;br&gt;MassTransit]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;IBAN generator, multi-currency&lt;br&gt;wallets, double-entry ACID ledger&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-7">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-4" style="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" vertex="1">
+            <mxGeometry height="110" width="216" x="682" y="100" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;FX Service&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: ASP.NET Core Worker]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Updates exchange rates every 1h&lt;br&gt;and handles currency conversions&lt;/div&gt;" mermaidId="n:fxSvc" mermaidBaseStyle="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;FX Service&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: ASP.NET Core Worker]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Updates exchange rates every 1h&lt;br&gt;and handles currency conversions&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-8">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-4" style="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" vertex="1">
+            <mxGeometry height="99" width="216" x="998" y="100" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Fraud &amp;amp; Audit Service&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: ASP.NET Core,&lt;br&gt;MassTransit]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Consumes events to check fraud&lt;br&gt;rules and write immutable audit logs&lt;/div&gt;" mermaidId="n:fraudAuditSvc" mermaidBaseStyle="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Fraud &amp;amp; Audit Service&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: ASP.NET Core,&lt;br&gt;MassTransit]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Consumes events to check fraud&lt;br&gt;rules and write immutable audit logs&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-9">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-4" style="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" vertex="1">
+            <mxGeometry height="110" width="216" x="50" y="311" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Notification Service&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: ASP.NET Core,&lt;br&gt;SignalR]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Pushes real-time transfer&lt;br&gt;confirmations and fraud alerts&lt;/div&gt;" mermaidId="n:notifSvc" mermaidBaseStyle="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Notification Service&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: ASP.NET Core,&lt;br&gt;SignalR]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Pushes real-time transfer&lt;br&gt;confirmations and fraud alerts&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-10">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-4" style="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" vertex="1">
+            <mxGeometry height="110" width="216" x="366" y="311" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Message Broker&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: RabbitMQ]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Event bus for EDA&lt;br&gt;(TransferCompleted,&lt;br&gt;FraudAlerted, RateUpdated)&lt;/div&gt;" mermaidId="n:rabbitmq" mermaidBaseStyle="shape=cylinder3;whiteSpace=wrap;html=1;backgroundOutline=1;size=9.87;direction=south;spacingRight=19.74;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Message Broker&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: RabbitMQ]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Event bus for EDA&lt;br&gt;(TransferCompleted,&lt;br&gt;FraudAlerted, RateUpdated)&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-11">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-4" style="shape=cylinder3;whiteSpace=wrap;html=1;backgroundOutline=1;size=9.87;direction=south;spacingRight=19.74;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" vertex="1">
+            <mxGeometry height="81" width="246" x="682" y="311" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Identity DB&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: SQL Server]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Users, roles, password hashes,&lt;br&gt;KYC records&lt;/div&gt;" mermaidId="n:identityDb" mermaidBaseStyle="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15.84;spacingTop=13;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Identity DB&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: SQL Server]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Users, roles, password hashes,&lt;br&gt;KYC records&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-12">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-4" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15.84;spacingTop=13;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" vertex="1">
+            <mxGeometry height="127" width="216" x="1028" y="311" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Ledger DB&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: SQL Server]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Accounts, IBANs, double-entry&lt;br&gt;ledger rows, Outbox messages&lt;/div&gt;" mermaidId="n:ledgerDb" mermaidBaseStyle="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15.84;spacingTop=13;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Ledger DB&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: SQL Server]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Accounts, IBANs, double-entry&lt;br&gt;ledger rows, Outbox messages&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-13">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-4" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15.84;spacingTop=13;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" vertex="1">
+            <mxGeometry height="127" width="216" x="50" y="538" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Audit &amp;amp; Fraud DB&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: SQL Server]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Append-only audit trail and&lt;br&gt;flagged transactions&lt;/div&gt;" mermaidId="n:auditDb" mermaidBaseStyle="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15.84;spacingTop=13;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Audit &amp;amp; Fraud DB&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: SQL Server]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Append-only audit trail and&lt;br&gt;flagged transactions&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-14">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-4" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15.84;spacingTop=13;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" vertex="1">
+            <mxGeometry height="127" width="216" x="366" y="538" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;text-align:left;&quot;&gt;Routes /fx&lt;br&gt;&lt;i&gt;[HTTP]&lt;/i&gt;&lt;/div&gt;" mermaidId="e:yarp-&gt;fxSvc#5" mermaidBaseStyle="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=1;exitY=0.5511363636363636;entryX=0;entryY=0.5642857142857147;align=center;verticalAlign=middle;" mermaidBaseValue="&lt;div style=&quot;text-align:left;&quot;&gt;Routes /fx&lt;br&gt;&lt;i&gt;[HTTP]&lt;/i&gt;&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-17">
+          <mxCell edge="1" parent="SRjLZItRbGDetEtLlN5D-4" source="SRjLZItRbGDetEtLlN5D-5" style="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=1;exitY=0.5;entryX=0;entryY=0.5;align=center;verticalAlign=middle;rounded=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="SRjLZItRbGDetEtLlN5D-8">
+            <mxGeometry relative="1" x="0.845" y="-2" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="490" y="-30" />
+              </Array>
+              <mxPoint x="266" y="218.0025" as="sourcePoint" />
+              <mxPoint x="998" y="231.30428571428587" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;text-align:left;&quot;&gt;Reads/Writes&lt;br&gt;&lt;i&gt;[EF Core]&lt;/i&gt;&lt;/div&gt;" mermaidId="e:identitySvc-&gt;identityDb#6" mermaidBaseStyle="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=1;exitY=0.8468585468585464;entryX=0;entryY=0.26130646124108164;align=center;verticalAlign=middle;" mermaidBaseValue="&lt;div style=&quot;text-align:left;&quot;&gt;Reads/Writes&lt;br&gt;&lt;i&gt;[EF Core]&lt;/i&gt;&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-18">
+          <mxCell edge="1" parent="SRjLZItRbGDetEtLlN5D-4" source="SRjLZItRbGDetEtLlN5D-6" style="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=1;exitY=0.5;entryX=0;entryY=0.25;align=center;verticalAlign=middle;rounded=0;exitDx=0;exitDy=0;entryDx=0;entryDy=7.92;entryPerimeter=0;" target="SRjLZItRbGDetEtLlN5D-12">
+            <mxGeometry relative="1" x="0.9808" y="20" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="694" y="269" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;text-align:left;&quot;&gt;ACID Transactions + Outbox&lt;br&gt;&lt;i&gt;[EF Core]&lt;/i&gt;&lt;/div&gt;" mermaidId="e:ledgerSvc-&gt;ledgerDb#7" mermaidBaseStyle="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=0.2339463092204868;exitY=1;entryX=1;entryY=0.05986380080868257;align=center;verticalAlign=middle;" mermaidBaseValue="&lt;div style=&quot;text-align:left;&quot;&gt;ACID Transactions + Outbox&lt;br&gt;&lt;i&gt;[EF Core]&lt;/i&gt;&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-19">
+          <mxCell edge="1" parent="SRjLZItRbGDetEtLlN5D-4" source="SRjLZItRbGDetEtLlN5D-7" style="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=0.2339463092204868;exitY=1;entryX=1;entryY=0.5;align=center;verticalAlign=middle;rounded=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="SRjLZItRbGDetEtLlN5D-13">
+            <mxGeometry relative="1" x="0.917" y="-33" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="616" y="378" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;text-align:left;&quot;&gt;Publishes TransferCompleted&lt;br&gt;&lt;i&gt;[AMQP]&lt;/i&gt;&lt;/div&gt;" mermaidId="e:ledgerSvc-&gt;rabbitmq#9" mermaidBaseStyle="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=0.6245305942125025;exitY=1;entryX=0.6139774859287055;entryY=0;align=center;verticalAlign=middle;" mermaidBaseValue="&lt;div style=&quot;text-align:left;&quot;&gt;Publishes TransferCompleted&lt;br&gt;&lt;i&gt;[AMQP]&lt;/i&gt;&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-20">
+          <mxCell edge="1" parent="SRjLZItRbGDetEtLlN5D-4" source="SRjLZItRbGDetEtLlN5D-7" style="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=0.6245305942125025;exitY=1;entryX=0;entryY=0;align=center;verticalAlign=middle;rounded=0;entryDx=0;entryDy=9.87;entryPerimeter=0;" target="SRjLZItRbGDetEtLlN5D-11">
+            <mxGeometry relative="1" x="-0.5941" y="31" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="821" y="261" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;text-align:left;&quot;&gt;Publishes ExchangeRateUpdated&lt;br&gt;&lt;i&gt;[AMQP]&lt;/i&gt;&lt;/div&gt;" mermaidId="e:fxSvc-&gt;rabbitmq#10" mermaidBaseStyle="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=0.32413850231941727;exitY=1;entryX=0.9322283470512724;entryY=0;align=center;verticalAlign=middle;" mermaidBaseValue="&lt;div style=&quot;text-align:left;&quot;&gt;Publishes ExchangeRateUpdated&lt;br&gt;&lt;i&gt;[AMQP]&lt;/i&gt;&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-21">
+          <mxCell edge="1" parent="SRjLZItRbGDetEtLlN5D-4" source="SRjLZItRbGDetEtLlN5D-8" style="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=0.5;exitY=1;entryX=0.5;entryY=0;align=center;verticalAlign=middle;rounded=0;entryDx=0;entryDy=0;entryPerimeter=0;exitDx=0;exitDy=0;" target="SRjLZItRbGDetEtLlN5D-11">
+            <mxGeometry relative="1" x="-0.5973" y="27.53" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="1029" y="255" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;text-align:left;&quot;&gt;Appends Logs&lt;br&gt;&lt;i&gt;[EF Core]&lt;/i&gt;&lt;/div&gt;" mermaidId="e:fraudAuditSvc-&gt;auditDb#8" mermaidBaseStyle="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=0.8716453114043476;exitY=1;entryX=0.1444875107665803;entryY=0;align=center;verticalAlign=middle;" mermaidBaseValue="&lt;div style=&quot;text-align:left;&quot;&gt;Appends Logs&lt;br&gt;&lt;i&gt;[EF Core]&lt;/i&gt;&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-22">
+          <mxCell edge="1" parent="SRjLZItRbGDetEtLlN5D-4" source="SRjLZItRbGDetEtLlN5D-9" style="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=1;exitY=1;entryX=0.5;entryY=0;align=center;verticalAlign=middle;rounded=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="SRjLZItRbGDetEtLlN5D-14">
+            <mxGeometry relative="1" x="1" y="32" as="geometry">
+              <mxPoint x="17" y="13" as="offset" />
+              <Array as="points">
+                <mxPoint x="278" y="480" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;text-align:left;&quot;&gt;Delivers Events&lt;br&gt;&lt;i&gt;[AMQP]&lt;/i&gt;&lt;/div&gt;" mermaidId="e:rabbitmq-&gt;fraudAuditSvc#11" mermaidBaseStyle="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=0;exitY=0.659386485722364;entryX=1;entryY=0.5526670680313063;align=center;verticalAlign=middle;" mermaidBaseValue="&lt;div style=&quot;text-align:left;&quot;&gt;Delivers Events&lt;br&gt;&lt;i&gt;[AMQP]&lt;/i&gt;&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-23">
+          <mxCell edge="1" parent="SRjLZItRbGDetEtLlN5D-4" source="SRjLZItRbGDetEtLlN5D-11" style="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=0.5;exitY=1;entryX=1;entryY=0.5526670680313063;align=center;verticalAlign=middle;rounded=0;exitDx=0;exitDy=0;exitPerimeter=0;" target="SRjLZItRbGDetEtLlN5D-9">
+            <mxGeometry relative="1" x="0.7933" y="6" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="578" y="368" />
+                <mxPoint x="590" y="500" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;text-align:left;&quot;&gt;Publishes FraudFlagged&lt;br&gt;&lt;i&gt;[AMQP]&lt;/i&gt;&lt;/div&gt;" mermaidId="e:fraudAuditSvc-&gt;rabbitmq#13" mermaidBaseStyle="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=1;exitY=0.5526670680313063;entryX=0;entryY=0.659386485722364;align=center;verticalAlign=middle;" mermaidBaseValue="&lt;div style=&quot;text-align:left;&quot;&gt;Publishes FraudFlagged&lt;br&gt;&lt;i&gt;[AMQP]&lt;/i&gt;&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-24">
+          <mxCell edge="1" parent="SRjLZItRbGDetEtLlN5D-4" source="SRjLZItRbGDetEtLlN5D-9" style="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=1;exitY=0.5526670680313063;entryX=0.5;entryY=1;align=center;verticalAlign=middle;rounded=0;entryDx=0;entryDy=0;entryPerimeter=0;" target="SRjLZItRbGDetEtLlN5D-11">
+            <mxGeometry relative="1" x="0.1433" y="-1" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="370" y="368" />
+                <mxPoint x="330" y="260" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;text-align:left;&quot;&gt;Delivers Events&lt;br&gt;&lt;i&gt;[AMQP]&lt;/i&gt;&lt;/div&gt;" mermaidId="e:rabbitmq-&gt;notifSvc#12" mermaidBaseStyle="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=0;exitY=0.901531339031339;entryX=1;entryY=0.5905777593704701;align=center;verticalAlign=middle;" mermaidBaseValue="&lt;div style=&quot;text-align:left;&quot;&gt;Delivers Events&lt;br&gt;&lt;i&gt;[AMQP]&lt;/i&gt;&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-25">
+          <mxCell edge="1" parent="SRjLZItRbGDetEtLlN5D-4" source="SRjLZItRbGDetEtLlN5D-11" style="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=0.5;exitY=1;entryX=1;entryY=0.5905777593704701;align=center;verticalAlign=middle;rounded=0;exitDx=0;exitDy=0;exitPerimeter=0;" target="SRjLZItRbGDetEtLlN5D-10">
+            <mxGeometry relative="1" x="-0.2149" y="10" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="657" y="380" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;text-align:left;&quot;&gt;Routes /accounts &amp;amp; /transfers&lt;br&gt;&lt;i&gt;[HTTP]&lt;/i&gt;&lt;/div&gt;" mermaidId="e:identitySvc-&gt;identityDb#6" mermaidBaseStyle="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=1;exitY=0.8468585468585464;entryX=0;entryY=0.26130646124108164;align=center;verticalAlign=middle;" mermaidBaseValue="&lt;div style=&quot;text-align:left;&quot;&gt;Reads/Writes&lt;br&gt;&lt;i&gt;[EF Core]&lt;/i&gt;&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-29">
+          <mxCell edge="1" parent="SRjLZItRbGDetEtLlN5D-4" source="SRjLZItRbGDetEtLlN5D-5" style="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=1;exitY=0.5;entryX=0;entryY=0.5;align=center;verticalAlign=middle;rounded=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="SRjLZItRbGDetEtLlN5D-7">
+            <mxGeometry relative="1" x="0.1534" y="14" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="430" y="270" />
+                <mxPoint x="600" y="200" />
+              </Array>
+              <mxPoint x="630" y="210" as="sourcePoint" />
+              <mxPoint x="1076" y="417" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;text-align:left;&quot;&gt;Routes /auth &amp;amp; /kyc&lt;br&gt;&lt;i&gt;[HTTP]&lt;/i&gt;&lt;/div&gt;" mermaidId="e:identitySvc-&gt;identityDb#6" mermaidBaseStyle="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=1;exitY=0.8468585468585464;entryX=0;entryY=0.26130646124108164;align=center;verticalAlign=middle;" mermaidBaseValue="&lt;div style=&quot;text-align:left;&quot;&gt;Reads/Writes&lt;br&gt;&lt;i&gt;[EF Core]&lt;/i&gt;&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-30">
+          <mxCell edge="1" parent="SRjLZItRbGDetEtLlN5D-4" source="SRjLZItRbGDetEtLlN5D-5" style="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=1;exitY=0.5;entryX=0;entryY=0.5;align=center;verticalAlign=middle;rounded=0;exitDx=0;exitDy=0;entryDx=0;entryDy=0;" target="SRjLZItRbGDetEtLlN5D-6">
+            <mxGeometry relative="1" x="0.6875" y="11" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="320" y="160" />
+                <mxPoint x="340" y="140" />
+              </Array>
+              <mxPoint x="540" y="210" as="sourcePoint" />
+              <mxPoint x="956" y="227" as="targetPoint" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

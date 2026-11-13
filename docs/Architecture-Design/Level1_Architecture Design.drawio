@@ -1,0 +1,50 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Seite-1" id="iQdIsa3MvU3Co_QehW3g">
+    <mxGraphModel dx="2539" dy="956" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <UserObject label="" mermaidData="{&#xa;  &quot;data&quot;: &quot;C4Context\n    title System Context Diagram - RevolutReplica\n\n    Person(customer, \&quot;Banking Customer\&quot;, \&quot;Manages wallets, exchanges currencies, and transfers money via mobile\&quot;)\n    \n    System(bankingSystem, \&quot;RevolutReplica System\&quot;, \&quot;Hybrid cloud-native banking platform with ACID ledger, FX rates, and EDA fraud checks\&quot;)\n    \n    System_Ext(fxFeed, \&quot;FX Rate Simulator\&quot;, \&quot;Generates simulated hourly currency exchange rates\&quot;)\n\n    Rel(customer, bankingSystem, \&quot;Views balances, transfers funds, checks KYC\&quot;, \&quot;HTTPS / SignalR\&quot;)\n    Rel(fxFeed, bankingSystem, \&quot;Feeds hourly exchange rates\&quot;, \&quot;Internal Timer / Event\&quot;)&quot;,&#xa;  &quot;config&quot;: null,&#xa;  &quot;version&quot;: &quot;12&quot;&#xa;}" id="SRjLZItRbGDetEtLlN5D-31">
+          <mxCell connectable="0" parent="1" style="group;transparentBounds=1;editIcon=1;lockedGroup=0;groupPadding=10;" vertex="1">
+            <mxGeometry as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="SRjLZItRbGDetEtLlN5D-32" parent="SRjLZItRbGDetEtLlN5D-31" style="text;html=1;strokeColor=none;fillColor=none;fontSize=16;fontColor=light-dark(#333333,#cccccc);align=left;verticalAlign=top;spacingLeft=304;" value="System Context Diagram - RevolutReplica" vertex="1">
+          <mxGeometry height="24" width="1108" x="-530" y="40" as="geometry" />
+        </mxCell>
+        <UserObject label="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Banking Customer&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Person]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Manages wallets, exchanges&lt;br&gt;currencies, and transfers money via&lt;br&gt;mobile&lt;/div&gt;" mermaidId="n:customer" mermaidBaseStyle="shape=mermaidPerson;perimeter=mermaidPersonPerimeter;whiteSpace=wrap;html=1;fillColor=#08427B;strokeColor=#073B6F;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Banking Customer&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Person]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Manages wallets, exchanges&lt;br&gt;currencies, and transfers money via&lt;br&gt;mobile&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-33">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-31" style="shape=mermaidPerson;perimeter=mermaidPersonPerimeter;whiteSpace=wrap;html=1;fillColor=#08427B;strokeColor=#073B6F;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" vertex="1">
+            <mxGeometry height="197" width="216" x="-400" y="202" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;RevolutReplica System&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Software System]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Hybrid cloud-native banking&lt;br&gt;platform with ACID ledger, FX rates,&lt;br&gt;and EDA fraud checks&lt;/div&gt;" mermaidId="n:bankingSystem" mermaidBaseStyle="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#1168BD;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;RevolutReplica System&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Software System]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Hybrid cloud-native banking&lt;br&gt;platform with ACID ledger, FX rates,&lt;br&gt;and EDA fraud checks&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-34">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-31" style="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#1168BD;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" vertex="1">
+            <mxGeometry height="111" width="216" x="-84" y="202" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;FX Rate Simulator&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Software System]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Generates simulated hourly&lt;br&gt;currency exchange rates&lt;/div&gt;" mermaidId="n:fxFeed" mermaidBaseStyle="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#999999;strokeColor=#8A8A8A;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;FX Rate Simulator&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Software System]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Generates simulated hourly&lt;br&gt;currency exchange rates&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-35">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-31" style="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#999999;strokeColor=#8A8A8A;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" vertex="1">
+            <mxGeometry height="99" width="216" x="232" y="202" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;text-align:left;&quot;&gt;Views balances, transfers funds, checks KYC&lt;br&gt;&lt;i&gt;[HTTPS / SignalR]&lt;/i&gt;&lt;/div&gt;" mermaidId="e:customer-&gt;bankingSystem#0" mermaidBaseStyle="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=1;exitY=0.571760367780864;entryX=0;entryY=0.9607588357588358;align=center;verticalAlign=middle;" mermaidBaseValue="&lt;div style=&quot;text-align:left;&quot;&gt;Views balances, transfers funds, checks KYC&lt;br&gt;&lt;i&gt;[HTTPS / SignalR]&lt;/i&gt;&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-36">
+          <mxCell edge="1" parent="SRjLZItRbGDetEtLlN5D-31" source="SRjLZItRbGDetEtLlN5D-33" style="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=1;exitY=0.571760367780864;entryX=0;entryY=0.9607588357588358;align=center;verticalAlign=middle;rounded=0;" target="SRjLZItRbGDetEtLlN5D-34">
+            <mxGeometry relative="1" x="1" y="-39" as="geometry">
+              <mxPoint x="22" y="-8" as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;text-align:left;&quot;&gt;Feeds hourly exchange rates&lt;br&gt;&lt;i&gt;[Internal Timer / Event]&lt;/i&gt;&lt;/div&gt;" mermaidId="e:fxFeed-&gt;bankingSystem#1" mermaidBaseStyle="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=0;exitY=0.7910839160839159;entryX=1;entryY=0.6135900050994392;align=center;verticalAlign=middle;" mermaidBaseValue="&lt;div style=&quot;text-align:left;&quot;&gt;Feeds hourly exchange rates&lt;br&gt;&lt;i&gt;[Internal Timer / Event]&lt;/i&gt;&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-37">
+          <mxCell edge="1" parent="SRjLZItRbGDetEtLlN5D-31" source="SRjLZItRbGDetEtLlN5D-35" style="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=0;exitY=0.7910839160839159;entryX=1;entryY=0.6135900050994392;align=center;verticalAlign=middle;rounded=0;" target="SRjLZItRbGDetEtLlN5D-34">
+            <mxGeometry relative="1" x="-0.8895" y="32" as="geometry">
+              <mxPoint x="1" as="offset" />
+              <Array as="points">
+                <mxPoint x="207" y="275" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,115 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Seite-1" id="iQdIsa3MvU3Co_QehW3g">
+    <mxGraphModel dx="2054" dy="1147" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <UserObject label="" mermaidData="{&#xa;  &quot;data&quot;: &quot;C4Component\n    title Component Diagram - Account &amp; Ledger Service\n\n    Container(yarp, \&quot;YARP API Gateway\&quot;, \&quot;Routes authenticated requests\&quot;)\n    ContainerDb(ledgerDb, \&quot;Ledger DB\&quot;, \&quot;SQL Server\&quot;)\n    ContainerQueue(rabbitmq, \&quot;RabbitMQ\&quot;, \&quot;Event Broker\&quot;)\n\n    Container_Boundary(ledgerService, \&quot;Account &amp; Ledger Service (ASP.NET Core)\&quot;) {\n        Component(transferCtrl, \&quot;Transfers Controller\&quot;, \&quot;Minimal API / Controller\&quot;, \&quot;Validates Idempotency-Key header &amp; JWT user claims\&quot;)\n        Component(ibanGen, \&quot;IBAN Generator\&quot;, \&quot;C# Domain Service\&quot;, \&quot;Generates valid unique IBANs for new multi-currency wallets\&quot;)\n        Component(ledgerEngine, \&quot;Double-Entry Ledger Engine\&quot;, \&quot;C# Domain Logic\&quot;, \&quot;Creates balanced Debit + Credit entries and verifies sufficient funds\&quot;)\n        Component(outboxRepo, \&quot;EF Core + MassTransit Outbox\&quot;, \&quot;Persistence Layer\&quot;, \&quot;Commits ledger entries and integration events in a single SQL ACID transaction\&quot;)\n    }\n\n    Rel(yarp, transferCtrl, \&quot;POST /api/transfers\&quot;, \&quot;HTTP\&quot;)\n    Rel(transferCtrl, ibanGen, \&quot;Requests new IBAN on account creation\&quot;)\n    Rel(transferCtrl, ledgerEngine, \&quot;Executes transfer command\&quot;)\n    Rel(ledgerEngine, outboxRepo, \&quot;Persists Debit, Credit &amp; Outbox Event\&quot;)\n    Rel(outboxRepo, ledgerDb, \&quot;BEGIN TRAN ... COMMIT\&quot;, \&quot;SQL / EF Core\&quot;)\n    Rel(outboxRepo, rabbitmq, \&quot;Background relay publishes event\&quot;, \&quot;AMQP\&quot;)&quot;,&#xa;  &quot;config&quot;: null,&#xa;  &quot;version&quot;: &quot;12&quot;&#xa;}" id="SRjLZItRbGDetEtLlN5D-38">
+          <mxCell connectable="0" parent="1" style="group;transparentBounds=1;editIcon=1;lockedGroup=0;groupPadding=10;" vertex="1">
+            <mxGeometry as="geometry" />
+          </mxCell>
+        </UserObject>
+        <mxCell id="SRjLZItRbGDetEtLlN5D-39" parent="SRjLZItRbGDetEtLlN5D-38" style="text;html=1;strokeColor=none;fillColor=none;fontSize=16;fontColor=light-dark(#333333,#cccccc);align=left;verticalAlign=top;spacingLeft=512;" value="Component Diagram - Account &amp;amp; Ledger Service" vertex="1">
+          <mxGeometry height="24" width="1524" x="30" y="30" as="geometry" />
+        </mxCell>
+        <UserObject label="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;YARP API Gateway&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: Routes authenticated&lt;br&gt;requests]&lt;/div&gt;" mermaidId="n:yarp" mermaidBaseStyle="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;YARP API Gateway&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: Routes authenticated&lt;br&gt;requests]&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-40">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-38" style="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" vertex="1">
+            <mxGeometry height="82" width="216" x="160" y="192" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Ledger DB&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: SQL Server]&lt;/div&gt;" mermaidId="n:ledgerDb" mermaidBaseStyle="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15.84;spacingTop=13;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Ledger DB&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: SQL Server]&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-41">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-38" style="shape=cylinder3;whiteSpace=wrap;html=1;boundedLbl=1;backgroundOutline=1;size=15.84;spacingTop=13;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" vertex="1">
+            <mxGeometry height="98" width="216" x="476" y="192" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;RabbitMQ&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: Event Broker]&lt;/div&gt;" mermaidId="n:rabbitmq" mermaidBaseStyle="shape=cylinder3;whiteSpace=wrap;html=1;backgroundOutline=1;size=6.17;direction=south;spacingRight=12.34;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;RabbitMQ&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Container: Event Broker]&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-42">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-38" style="shape=cylinder3;whiteSpace=wrap;html=1;backgroundOutline=1;size=6.17;direction=south;spacingRight=12.34;fillColor=#438DD5;strokeColor=#3C7FC0;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" vertex="1">
+            <mxGeometry height="60" width="235" x="792" y="192" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;font-size:16px;font-weight:bold;&quot;&gt;Account &amp;amp; Ledger Service (ASP.NET Core)&lt;/div&gt;&lt;div style=&quot;font-size:14px;font-weight:normal;margin-top:4px;&quot;&gt;[CONTAINER]&lt;/div&gt;" mermaidId="n:ledgerService" mermaidBaseStyle="rounded=1;absoluteArcSize=1;arcSize=5;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#444444;strokeWidth=1;dashed=1;dashPattern=5 5;verticalAlign=top;align=center;spacingTop=2;fontSize=16;fontStyle=1;fontColor=#444444;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:16px;font-weight:bold;&quot;&gt;Account &amp;amp; Ledger Service (ASP.NET Core)&lt;/div&gt;&lt;div style=&quot;font-size:14px;font-weight:normal;margin-top:4px;&quot;&gt;[CONTAINER]&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-43">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-38" style="rounded=1;absoluteArcSize=1;arcSize=5;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#444444;strokeWidth=1;dashed=1;dashPattern=5 5;verticalAlign=top;align=center;spacingTop=2;fontSize=16;fontStyle=1;fontColor=#444444;fontFamily=Open Sans,sans-serif;fixDash=1;" vertex="1">
+            <mxGeometry height="276" width="1264" x="160" y="399" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Transfers Controller&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Component: Minimal API /&lt;br&gt;Controller]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Validates Idempotency-Key header&lt;br&gt;&amp;amp; JWT user claims&lt;/div&gt;" mermaidId="n:transferCtrl" mermaidBaseStyle="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#85BBF0;strokeColor=#78A8D8;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Transfers Controller&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Component: Minimal API /&lt;br&gt;Controller]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Validates Idempotency-Key header&lt;br&gt;&amp;amp; JWT user claims&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-44">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-43" style="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#85BBF0;strokeColor=#78A8D8;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" vertex="1">
+            <mxGeometry height="110" width="216" x="50" y="100" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;IBAN Generator&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Component: C# Domain Service]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Generates valid unique IBANs for&lt;br&gt;new multi-currency wallets&lt;/div&gt;" mermaidId="n:ibanGen" mermaidBaseStyle="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#85BBF0;strokeColor=#78A8D8;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;IBAN Generator&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Component: C# Domain Service]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Generates valid unique IBANs for&lt;br&gt;new multi-currency wallets&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-45">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-43" style="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#85BBF0;strokeColor=#78A8D8;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" vertex="1">
+            <mxGeometry height="99" width="216" x="366" y="100" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Double-Entry Ledger&lt;br&gt;Engine&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Component: C# Domain Logic]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Creates balanced Debit + Credit&lt;br&gt;entries and verifies sufficient funds&lt;/div&gt;" mermaidId="n:ledgerEngine" mermaidBaseStyle="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#85BBF0;strokeColor=#78A8D8;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;Double-Entry Ledger&lt;br&gt;Engine&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Component: C# Domain Logic]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Creates balanced Debit + Credit&lt;br&gt;entries and verifies sufficient funds&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-46">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-43" style="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#85BBF0;strokeColor=#78A8D8;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" vertex="1">
+            <mxGeometry height="114" width="216" x="682" y="100" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;EF Core + MassTransit&lt;br&gt;Outbox&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Component: Persistence Layer]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Commits ledger entries and&lt;br&gt;integration events in a single SQL&lt;br&gt;ACID transaction&lt;/div&gt;" mermaidId="n:outboxRepo" mermaidBaseStyle="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#85BBF0;strokeColor=#78A8D8;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" mermaidBaseValue="&lt;div style=&quot;font-size:14px;font-weight:bold;line-height:1.07;white-space:nowrap;&quot;&gt;EF Core + MassTransit&lt;br&gt;Outbox&lt;/div&gt;&lt;div style=&quot;font-size:10.5px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;[Component: Persistence Layer]&lt;/div&gt;&lt;div style=&quot;font-size:11.48px;margin-top:3px;line-height:1.07;white-space:nowrap;&quot;&gt;Commits ledger entries and&lt;br&gt;integration events in a single SQL&lt;br&gt;ACID transaction&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-47">
+          <mxCell parent="SRjLZItRbGDetEtLlN5D-43" style="rounded=1;absoluteArcSize=1;arcSize=24;whiteSpace=wrap;html=1;fillColor=#85BBF0;strokeColor=#78A8D8;strokeWidth=2;fontColor=#FFFFFF;align=center;verticalAlign=middle;fontFamily=Open Sans,sans-serif;" vertex="1">
+            <mxGeometry height="126" width="216" x="998" y="100" as="geometry" />
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;text-align:left;&quot;&gt;Requests new IBAN on account creation&lt;/div&gt;" mermaidId="e:transferCtrl-&gt;ibanGen#1" mermaidBaseStyle="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=1;exitY=0.614622641509434;entryX=0;entryY=0.788461538461538;align=center;verticalAlign=middle;" mermaidBaseValue="&lt;div style=&quot;text-align:left;&quot;&gt;Requests new IBAN on account creation&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-49">
+          <mxCell edge="1" parent="SRjLZItRbGDetEtLlN5D-43" source="SRjLZItRbGDetEtLlN5D-44" style="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=1;exitY=0.614622641509434;entryX=0;entryY=0.788461538461538;align=center;verticalAlign=middle;rounded=0;" target="SRjLZItRbGDetEtLlN5D-45">
+            <mxGeometry relative="1" x="0.3309" y="-35" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="291" y="173" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;text-align:left;&quot;&gt;Executes transfer command&lt;/div&gt;" mermaidId="e:transferCtrl-&gt;ledgerEngine#2" mermaidBaseStyle="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=1;exitY=0.5756265356265358;entryX=0;entryY=0.5994375251104864;align=center;verticalAlign=middle;" mermaidBaseValue="&lt;div style=&quot;text-align:left;&quot;&gt;Executes transfer command&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-50">
+          <mxCell edge="1" parent="SRjLZItRbGDetEtLlN5D-43" source="SRjLZItRbGDetEtLlN5D-44" style="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=1;exitY=0.5756265356265358;entryX=0;entryY=0.5994375251104864;align=center;verticalAlign=middle;rounded=0;" target="SRjLZItRbGDetEtLlN5D-46">
+            <mxGeometry relative="1" x="0.7035" y="-43" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="370" y="166" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;text-align:left;&quot;&gt;Persists Debit, Credit &amp;amp; Outbox Event&lt;/div&gt;" mermaidId="e:ledgerEngine-&gt;outboxRepo#3" mermaidBaseStyle="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=1;exitY=0.6407646474677255;entryX=0;entryY=0.7348901098901096;align=center;verticalAlign=middle;" mermaidBaseValue="&lt;div style=&quot;text-align:left;&quot;&gt;Persists Debit, Credit &amp;amp; Outbox Event&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-51">
+          <mxCell edge="1" parent="SRjLZItRbGDetEtLlN5D-43" source="SRjLZItRbGDetEtLlN5D-46" style="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=1;exitY=0.6407646474677255;entryX=0;entryY=0.7348901098901096;align=center;verticalAlign=middle;rounded=0;" target="SRjLZItRbGDetEtLlN5D-47">
+            <mxGeometry relative="1" x="-0.052" y="-36" as="geometry">
+              <mxPoint y="-1" as="offset" />
+              <Array as="points">
+                <mxPoint x="923" y="183" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;text-align:left;&quot;&gt;POST /api/transfers&lt;br&gt;&lt;i&gt;[HTTP]&lt;/i&gt;&lt;/div&gt;" mermaidId="e:yarp-&gt;transferCtrl#0" mermaidBaseStyle="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=0.5828473501125434;exitY=1;entryX=0.55552074631022;entryY=0;align=center;verticalAlign=middle;" mermaidBaseValue="&lt;div style=&quot;text-align:left;&quot;&gt;POST /api/transfers&lt;br&gt;&lt;i&gt;[HTTP]&lt;/i&gt;&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-48">
+          <mxCell edge="1" parent="SRjLZItRbGDetEtLlN5D-38" source="SRjLZItRbGDetEtLlN5D-40" style="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=0.5828473501125434;exitY=1;entryX=0.55552074631022;entryY=0;align=center;verticalAlign=middle;rounded=0;" target="SRjLZItRbGDetEtLlN5D-44">
+            <mxGeometry relative="1" x="-0.0371" y="64" as="geometry">
+              <mxPoint as="offset" />
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;text-align:left;&quot;&gt;BEGIN TRAN ... COMMIT&lt;br&gt;&lt;i&gt;[SQL / EF Core]&lt;/i&gt;&lt;/div&gt;" mermaidId="e:outboxRepo-&gt;ledgerDb#4" mermaidBaseStyle="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=0;exitY=0.11473369835739179;entryX=0.9843593593593596;entryY=1;align=center;verticalAlign=middle;" mermaidBaseValue="&lt;div style=&quot;text-align:left;&quot;&gt;BEGIN TRAN ... COMMIT&lt;br&gt;&lt;i&gt;[SQL / EF Core]&lt;/i&gt;&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-52">
+          <mxCell edge="1" parent="SRjLZItRbGDetEtLlN5D-38" source="SRjLZItRbGDetEtLlN5D-47" style="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=0;exitY=0.11473369835739179;entryX=0.9843593593593596;entryY=1;align=center;verticalAlign=middle;rounded=0;" target="SRjLZItRbGDetEtLlN5D-41">
+            <mxGeometry relative="1" x="0.5092" y="43" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="1041" y="402" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+        <UserObject label="&lt;div style=&quot;text-align:left;&quot;&gt;Background relay publishes event&lt;br&gt;&lt;i&gt;[AMQP]&lt;/i&gt;&lt;/div&gt;" mermaidId="e:outboxRepo-&gt;rabbitmq#5" mermaidBaseStyle="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=0.23834235860409153;exitY=0;entryX=0.663542265669925;entryY=1;align=center;verticalAlign=middle;" mermaidBaseValue="&lt;div style=&quot;text-align:left;&quot;&gt;Background relay publishes event&lt;br&gt;&lt;i&gt;[AMQP]&lt;/i&gt;&lt;/div&gt;" id="SRjLZItRbGDetEtLlN5D-53">
+          <mxCell edge="1" parent="SRjLZItRbGDetEtLlN5D-38" source="SRjLZItRbGDetEtLlN5D-47" style="endArrow=block;html=1;strokeColor=#444444;strokeWidth=1;curved=1;fontSize=12;fontColor=#444444;fontFamily=Open Sans,sans-serif;labelBackgroundColor=none;exitX=0.23834235860409153;exitY=0;entryX=0.663542265669925;entryY=1;align=center;verticalAlign=middle;rounded=0;" target="SRjLZItRbGDetEtLlN5D-42">
+            <mxGeometry relative="1" x="-0.3824" y="-41" as="geometry">
+              <mxPoint as="offset" />
+              <Array as="points">
+                <mxPoint x="1144" y="376" />
+              </Array>
+            </mxGeometry>
+          </mxCell>
+        </UserObject>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
