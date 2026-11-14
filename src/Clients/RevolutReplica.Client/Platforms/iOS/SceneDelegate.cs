@@ -1,6 +1,6 @@
 using Foundation;
 
-namespace RevClient
+namespace RevolutReplica.Client
 {
     [Register("SceneDelegate")]
     public class SceneDelegate : MauiUISceneDelegate

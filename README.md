@@ -1,160 +1,104 @@
 # RevolutReplica
 
-A solo learning project for .NET microservices, event-driven banking workflows,
-and eventually Kubernetes, CI/CD, and GitOps. Uses synthetic financial data.
+Ein Lernprojekt für eine Banking-App mit **.NET MAUI**, ASP.NET Core Microservices,
+SQL Server und RabbitMQ. Es verwendet synthetische Finanzdaten.
 
-## Current milestone: Step 1
+## In Visual Studio starten
 
-Backend solution and infrastructure scaffolding only. Identity/KYC, JWT,
-gateway routing/rate limiting, ledger operations, FX simulation, messaging,
-fraud checks, and SignalR are not implemented yet. Confirm Step 1 before
-starting Step 2. Build and exercise the backend locally before MAUI or Kubernetes.
+**Öffne `RevolutReplica.sln` im Repository-Hauptverzeichnis.** Diese eine Solution
+enthält den MAUI-Client, das Gateway und alle fünf Services.
 
-This README follows the current five-service architecture. The earlier
-`docs/PreparationChatGpt.md` proposal describes a different, superseded
-modular-monolith plan. The existing MAUI source is under `src/Clients/RevClient/`.
+1. Öffne die Datei über **Datei → Öffnen → Projekt/Projektmappe**.
+2. Verwende im Projektmappen-Explorer die **Projektmappenansicht**.
+3. Klappe `src → Clients` auf und wähle `RevolutReplica.Client` als Startprojekt.
+4. Wähle für die lokale Windows-Entwicklung **Windows Machine** als Ziel und starte mit **F5**.
+
+Für gezieltes Arbeiten gibt es zwei optionale Filter derselben Solution:
+
+| Datei | Enthaltene Projekte |
+| --- | --- |
+| `RevolutReplica.sln` | Gesamte Anwendung; der normale Einstieg |
+| `solutions/Client.slnf` | Nur der MAUI-Client |
+| `solutions/Backend.slnf` | Gateway und Services; ohne MAUI-Workload baubar |
+
+Die Filter sind Ansichten der Hauptsolution. Die bisherige
+`RevolutReplica.Client.slnx` wurde integriert. Der bisherige Client `RevClient`
+heißt jetzt `RevolutReplica.Client`.
+
+## Repository-Struktur
 
 ```text
-RevolutReplica.sln                   # Backend only: no MAUI workload required
-RevolutReplica.Client.slnx           # Existing MAUI client only
-global.json                         # Stable .NET 10 SDK selection
+RevolutReplica.sln
+RevolutReplica.slnLaunch             # Gemeinsame Visual-Studio-Startprofile
+.editorconfig                       # Formatierung für Visual Studio
+global.json                         # Festgelegte .NET-SDK-Version
+docker-compose.yml                  # Lokale Datenbank und Message Broker
+solutions/                          # Optionale Ansichtsfilter
 src/
-  Directory.Build.props             # Backend compiler defaults only
+  Directory.Build.props             # Backend-Compilerregeln
   Clients/
-    Directory.Build.props           # Keeps client compiler settings independent
-    RevClient/RevClient.csproj       # Existing MAUI project
-  Gateway/RevolutReplica.Gateway/
+    Directory.Build.props           # Unabhängige MAUI-Compilerkonfiguration
+    RevolutReplica.Client/
+      App.xaml                      # App-Einstieg und Ressourcen
+      AppShell.xaml                 # Navigation
+      MauiProgram.cs                # Dependency Injection und App-Konfiguration
+      Views/                        # XAML-Seiten und UI-Code
+      ViewModels/                   # Künftig Zustand und Commands (MVVM)
+      Models/                       # Künftig UI-Modelle
+      Services/                     # Künftig API-Zugriff und Geräteservices
+      Platforms/                    # Android, iOS, MacCatalyst und Windows
+      Resources/                    # Styles, Farben, Bilder und Fonts
+  Gateway/
+    RevolutReplica.Gateway/
   Services/
     Identity/RevolutReplica.Identity.Api/
     Accounts/RevolutReplica.Accounts.Api/
     Fx/RevolutReplica.Fx.Api/
     FraudAudit/RevolutReplica.FraudAudit.Api/
     Notifications/RevolutReplica.Notifications.Api/
+tests/                              # Platz und Regeln für kommende Testprojekte
 docs/
-  Preparation.md
-  PreparationChatGpt.md              # Historical, superseded architecture proposal
-  Architecture-Design/              # Repository-local draw.io diagrams
-infrastructure/sqlserver/
-  create-databases.sql               # Repeatable database creation
-docker-compose.yml                  # Local SQL Server, bootstrap job, RabbitMQ
-.env.example                        # Credential names; no passwords
+  ARCHITECTURE.md                    # Zuständigkeiten und Abhängigkeiten
+  DEVELOPMENT.md                     # Build, Debugging und Infrastruktur
+  Preparation.md                    # Ursprüngliche Planung
+  PreparationChatGpt.md              # Historischer Alternativvorschlag
+  Architecture-Design/               # Bestehende draw.io-Diagramme
+infrastructure/
+  sqlserver/create-databases.sql
 ```
-The gateway has the YARP package installed; routes are introduced in Step 2.
-FX and Fraud/Audit use ASP.NET Core hosts so they can expose health endpoints
-alongside their future background workers/consumers.
 
-Open `RevolutReplica.sln` in Visual Studio for backend work, or
-`RevolutReplica.Client.slnx` for MAUI client work. Both solution files live at
-the repository root and reference their projects using relative paths. They
-can be opened in separate Visual Studio windows when working on both sides.
-The client project name and namespace remain `RevClient`.
+Die vorbereiteten, noch leeren Ordner sind in den Projektdateien hinterlegt und
+dadurch auch nach einem frischen Clone in Visual Studio sichtbar. Im Dateisystem
+entstehen sie spätestens beim Hinzufügen der ersten Klasse.
 
-## Build and run locally
+## Build
 
-Prerequisites: .NET SDK 10.0.403 (or a newer patch in the 10.0.4xx feature band),
-and Docker with Compose v2 and Linux containers for the infrastructure.
-The root SDK selection also applies when working on the existing MAUI solution.
-
-From the repository root:
+Voraussetzung: .NET SDK **10.0.403** oder ein neuerer Patch derselben
+10.0.4xx-SDK-Reihe. Für den Client zusätzlich die passenden MAUI-Workloads und
+Plattform-SDKs installieren. Visual Studio muss das verwendete .NET SDK unterstützen.
 
 ```powershell
-dotnet restore RevolutReplica.sln
-dotnet build RevolutReplica.sln --no-restore
+# Gesamte Anwendung für die lokale Windows-Entwicklung:
+dotnet build RevolutReplica.sln -p:ClientTargetFrameworks=net10.0-windows10.0.19041.0
+
+# Nur Backend, auch für Rechner ohne MAUI:
+dotnet build solutions/Backend.slnf
 ```
 
-The client solution is separate from this backend build. To verify the MAUI
-Windows target on Windows with the matching MAUI workload installed:
+`ClientTargetFrameworks` begrenzt ausschließlich den MAUI-Build. Die Backend-Projekte
+bleiben bei `net10.0`; die ursprünglichen mobilen Client-Ziele bleiben verfügbar.
 
-```powershell
-dotnet build RevolutReplica.Client.slnx --configuration Debug -p:TargetFrameworks=net10.0-windows10.0.19041.0
-```
+Die [Entwicklungsanleitung](docs/DEVELOPMENT.md) erklärt Startprofile, weitere
+Plattformen, Docker und lokale Ports. Die [Architekturübersicht](docs/ARCHITECTURE.md)
+zeigt, wo neue Klassen hingehören. Neue Tests folgen den Regeln in
+[`tests/README.md`](tests/README.md).
 
-Choose the appropriate target in Visual Studio when working on another client
-platform. Opening a solution does not start its projects; when the client later
-calls backend APIs, start those services separately in Visual Studio or a terminal.
+## Aktueller Funktionsumfang
 
-For a fresh clone, copy `.env.example` to `.env`, then set a strong local SQL
-administrator password and RabbitMQ password. `.env` is ignored by Git.
-During the initial setup, an ignored `.env` was generated locally with random
-passwords; it is not part of the repository.
+Die Backend-Projekte sind startbare Hosts mit `/health/public`. Das Gateway hat
+das YARP-Paket bereits referenziert. Die MAUI-App enthält die bestehende Beispielseite.
+Routing, Identity/KYC, JWT, Ledger-Buchungen, FX-Simulation, Messaging,
+Fraud-Erkennung und SignalR sind noch umzusetzen.
 
-```powershell
-# Fresh clones only; do not overwrite an existing .env:
-Copy-Item .env.example .env
-# Edit .env before continuing.
-docker compose config --quiet
-docker compose up -d sqlserver rabbitmq
-docker compose run --rm sqlserver-init
-docker compose ps
-```
-
-The initializer waits for SQL Server's health check and exits with code 0 on
-success. It can safely be rerun: existing databases are preserved. A normal
-`docker compose up -d` also starts the initializer; check its exit code with
-`docker compose ps -a` and its output with `docker compose logs sqlserver-init`.
-
-Run an API in a terminal, then probe it in another terminal:
-
-```powershell
-dotnet run --project src/Gateway/RevolutReplica.Gateway --launch-profile http
-# In another terminal:
-Invoke-RestMethod http://localhost:5000/health/public
-```
-
-| Host | HTTP port | Owning SQL database |
-| --- | --- | --- |
-| Gateway | 5000 | None |
-| Identity & KYC | 5001 | RevolutReplica.Identity |
-| Account & Ledger | 5002 | RevolutReplica.Accounts |
-| FX | 5003 | RevolutReplica.Fx |
-| Fraud & Audit | 5004 | RevolutReplica.FraudAudit |
-| Notifications | 5005 | RevolutReplica.Notifications |
-
-Use the corresponding project path with `dotnet run` for each host. Every host
-exposes `/health/public`, returning `Healthy`; this proves only that the host is
-running. These endpoints do not check SQL Server or RabbitMQ. Step 1 hosts do
-not yet connect to either dependency. HTTP profiles bind to localhost for local
-scaffolding; authentication and TLS configuration follow during Step 2.
-
-SQL Server is available at `localhost,1433`. RabbitMQ AMQP is on `localhost:5672`,
-its management UI is at <http://localhost:15672>, and its vhost is
-`revolutreplica`. Credentials are in your local `.env`. ASP.NET Core does not
-automatically load Compose's `.env`; configure each service with .NET user
-secrets or environment variables when its integration is implemented.
-
-The SQL `sa` credential is for local bootstrap/administration only. Introduce
-separate database-scoped application logins and migration credentials when
-implementing each service; never configure a service to use `sa`. No database
-schemas or application permissions have been created in Step 1.
-
-`docker compose down` stops the infrastructure while preserving named volumes.
-Changing `.env` does not rotate credentials already stored in those volumes.
-SQL Server's `2022-latest` development tag receives updates; pin image digests
-when building the deployment pipeline.
-
-## Rules for subsequent steps
-
-- Accounts and Ledger form one service and one transaction boundary. Never
-  update a balance independently of balanced, append-only ledger postings.
-- A P2P transfer commits its debit, credit, durable idempotency result, and
-  outbox entry in the same SQL transaction. Enforce `Idempotency-Key` with
-  database uniqueness, request matching, and safe retries under concurrency.
-- Each service owns its database and migrations. No cross-database queries,
-  shared EF entities, or direct writes into another service's database.
-- Use MassTransit with RabbitMQ and a transactional outbox when implementing
-  events. Consumers must tolerate duplicate delivery. Sagas coordinate future
-  multi-service workflows without replacing the ledger's ACID transaction.
-- Validate JWTs at the gateway and in protected services. Enforce account
-  ownership in the service handling the request.
-- Asynchronous fraud checks detect events after posting; they cannot prevent
-  an already committed transfer. Audit records are append-only.
-- Preserve the MAUI palette for its later phase: `#5E6973`, `#000000`,
-  `#F1F2F6`, `#02C39A`, `#BF1363`; use conventional green/red for success/alerts.
-
-## Technical references
-
-- [.NET support policy](https://dotnet.microsoft.com/en-us/platform/support/policy)
-- [YARP getting started](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/servers/yarp/getting-started?view=aspnetcore-10.0)
-- [SQL Server Linux containers](https://learn.microsoft.com/en-us/sql/linux/quickstart-install-connect-docker?view=sql-server-ver16)
-- [RabbitMQ installation](https://www.rabbitmq.com/docs/download)
-- [Compose health checks and startup ordering](https://docs.docker.com/compose/how-tos/startup-order/)
+Die Solution-Struktur bereitet diese Entwicklung vor; die fachlichen Regeln und
+Service-Grenzen sind in [ARCHITECTURE.md](docs/ARCHITECTURE.md) festgehalten.

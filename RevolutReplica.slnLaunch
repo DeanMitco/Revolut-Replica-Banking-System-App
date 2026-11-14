@@ -1,0 +1,73 @@
+[
+  {
+    "Name": "Client",
+    "Projects": [
+      {
+        "Path": "src\\Clients\\RevolutReplica.Client\\RevolutReplica.Client.csproj",
+        "Action": "Start"
+      }
+    ]
+  },
+  {
+    "Name": "Backend",
+    "Projects": [
+      {
+        "Path": "src\\Gateway\\RevolutReplica.Gateway\\RevolutReplica.Gateway.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Services\\Identity\\RevolutReplica.Identity.Api\\RevolutReplica.Identity.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Services\\Accounts\\RevolutReplica.Accounts.Api\\RevolutReplica.Accounts.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Services\\Fx\\RevolutReplica.Fx.Api\\RevolutReplica.Fx.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Services\\FraudAudit\\RevolutReplica.FraudAudit.Api\\RevolutReplica.FraudAudit.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Services\\Notifications\\RevolutReplica.Notifications.Api\\RevolutReplica.Notifications.Api.csproj",
+        "Action": "Start"
+      }
+    ]
+  },
+  {
+    "Name": "Full Stack",
+    "Projects": [
+      {
+        "Path": "src\\Gateway\\RevolutReplica.Gateway\\RevolutReplica.Gateway.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Services\\Identity\\RevolutReplica.Identity.Api\\RevolutReplica.Identity.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Services\\Accounts\\RevolutReplica.Accounts.Api\\RevolutReplica.Accounts.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Services\\Fx\\RevolutReplica.Fx.Api\\RevolutReplica.Fx.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Services\\FraudAudit\\RevolutReplica.FraudAudit.Api\\RevolutReplica.FraudAudit.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Services\\Notifications\\RevolutReplica.Notifications.Api\\RevolutReplica.Notifications.Api.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "src\\Clients\\RevolutReplica.Client\\RevolutReplica.Client.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

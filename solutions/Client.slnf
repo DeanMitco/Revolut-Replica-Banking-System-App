@@ -1,0 +1,8 @@
+{
+  "solution": {
+    "path": "..\\RevolutReplica.sln",
+    "projects": [
+      "src\\Clients\\RevolutReplica.Client\\RevolutReplica.Client.csproj"
+    ]
+  }
+}

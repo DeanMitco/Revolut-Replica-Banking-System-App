@@ -1,4 +1,4 @@
-﻿namespace RevClient
+namespace RevolutReplica.Client.Views
 {
     public partial class MainPage : ContentPage
     {

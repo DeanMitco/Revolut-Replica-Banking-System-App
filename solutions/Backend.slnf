@@ -1,0 +1,13 @@
+{
+  "solution": {
+    "path": "..\\RevolutReplica.sln",
+    "projects": [
+      "src\\Gateway\\RevolutReplica.Gateway\\RevolutReplica.Gateway.csproj",
+      "src\\Services\\Identity\\RevolutReplica.Identity.Api\\RevolutReplica.Identity.Api.csproj",
+      "src\\Services\\Accounts\\RevolutReplica.Accounts.Api\\RevolutReplica.Accounts.Api.csproj",
+      "src\\Services\\Fx\\RevolutReplica.Fx.Api\\RevolutReplica.Fx.Api.csproj",
+      "src\\Services\\FraudAudit\\RevolutReplica.FraudAudit.Api\\RevolutReplica.FraudAudit.Api.csproj",
+      "src\\Services\\Notifications\\RevolutReplica.Notifications.Api\\RevolutReplica.Notifications.Api.csproj"
+    ]
+  }
+}

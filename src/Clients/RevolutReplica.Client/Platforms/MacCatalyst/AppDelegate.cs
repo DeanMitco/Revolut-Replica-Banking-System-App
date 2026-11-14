@@ -1,6 +1,6 @@
-﻿using Foundation;
+using Foundation;
 
-namespace RevClient
+namespace RevolutReplica.Client
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

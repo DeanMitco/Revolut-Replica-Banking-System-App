@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace RevClient
+namespace RevolutReplica.Client
 {
     public partial class App : Application
     {

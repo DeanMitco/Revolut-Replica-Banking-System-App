@@ -1,4 +1,4 @@
-﻿namespace RevClient
+namespace RevolutReplica.Client
 {
     public partial class AppShell : Shell
     {

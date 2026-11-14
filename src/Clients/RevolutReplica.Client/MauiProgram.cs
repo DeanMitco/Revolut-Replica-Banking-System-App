@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging;
 
-namespace RevClient
+namespace RevolutReplica.Client
 {
     public static class MauiProgram
     {

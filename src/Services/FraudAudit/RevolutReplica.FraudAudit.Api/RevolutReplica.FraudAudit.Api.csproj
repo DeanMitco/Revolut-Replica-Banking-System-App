@@ -4,6 +4,9 @@
     <UserSecretsId>RevolutReplica-FraudAudit-Local</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="../../../BuildingBlocks/RevolutReplica.BuildingBlocks.csproj" />
+    <Folder Include="Domain\" />
+    <Folder Include="Application\" />
+    <Folder Include="Infrastructure\" />
+    <Folder Include="Endpoints\" />
   </ItemGroup>
 </Project>
